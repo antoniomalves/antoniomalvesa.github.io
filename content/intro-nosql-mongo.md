@@ -18,7 +18,7 @@ Quanto mais dados no banco, torna-se necessário mais máquinas e mais memória.
 ### As principais diferenças entre o modelo relacional e o não relacional são:
 
 * Os bancos de dados não relacionais não suportam operações de junções de tabela.
-* Não existe normalização, isto é, são shemaless, diferentemente de bancos relacionais.
+* Não existe normalização, isto é, são schemaless, diferentemente de bancos relacionais.
     * Utilizar schemaless, significa não se preocupar com os tipos de dados, nomes de colunas, nome de tabelas e seus relacionamentos. Não há necessidade de realizar normalização.
 * Os bancos de dados relacionais são verticalmente escaláveis enquanto os NoSQL's são horizontalmente escaláveis.
 
