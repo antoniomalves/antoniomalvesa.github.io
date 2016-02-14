@@ -22,12 +22,11 @@ AUTHOR_FEED_RSS = None
 # Blogroll
 LINKS = (('Pelican', 'http://getpelican.com/'),
          ('Python.org', 'http://python.org/'),
-         ('Jinja2', 'http://jinja.pocoo.org/'),
-         ('You can modify those links in your config file', '#'),)
+         ('Jinja2', 'http://jinja.pocoo.org/'),)
 
 # Social widget
 SOCIAL = (('twitter', 'https://twitter.com/antonio_marc'),
-          ('Another social link', '#'),)
+          ('github', 'https://github.com/antoniomalves'),)
 
 DEFAULT_PAGINATION = 10
 THEME='./theme/waterspill-en'
