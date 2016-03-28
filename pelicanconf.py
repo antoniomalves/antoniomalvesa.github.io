@@ -29,7 +29,7 @@ SOCIAL = (('twitter', 'https://twitter.com/antonio_marc'),
           ('github', 'https://github.com/antoniomalves'),)
 
 DEFAULT_PAGINATION = 10
-THEME='./theme/waterspill-en'
+#THEME='./theme/waterspill-en'
 
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
