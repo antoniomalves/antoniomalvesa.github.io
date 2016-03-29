@@ -1,5 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Freedev</title><link href="http://antoniomalves.github.io/" rel="alternate"></link><link href="http://antoniomalves.github.io/feeds/all.atom.xml" rel="self"></link><id>http://antoniomalves.github.io/</id><updated>2016-02-13T21:23:00-02:00</updated><entry><title>Introdução ao NoSQL e MongoDB</title><link href="http://antoniomalves.github.io/intro-nosql-mongo.html" rel="alternate"></link><updated>2016-02-13T21:23:00-02:00</updated><author><name>Antonio Alves Lima</name></author><id>tag:antoniomalves.github.io,2016-02-13:intro-nosql-mongo.html</id><summary type="html">&lt;h3&gt;NoSQL&lt;/h3&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Freedev</title><link href="http://antoniomalves.github.io/" rel="alternate"></link><link href="http://antoniomalves.github.io/feeds/all.atom.xml" rel="self"></link><id>http://antoniomalves.github.io/</id><updated>2016-03-28T22:37:00-03:00</updated><entry><title>CRUD - Trabalhando com dados</title><link href="http://antoniomalves.github.io/insert-mongodb.html" rel="alternate"></link><updated>2016-03-28T22:37:00-03:00</updated><author><name>Antonio Alves Lima</name></author><id>tag:antoniomalves.github.io,2016-03-28:insert-mongodb.html</id><summary type="html">&lt;h3&gt;Insert - Como inserimos documentos em uma coleção.&lt;/h3&gt;
+&lt;p&gt;Nos próximos posts irei mostrar as quatro operações básicas do MongoDB(CRUD) - Insert, update, remove e find/findOne.
+Como tenho muita coisa para mostrar nessas quatro operações resolvi fazer um post para cada uma delas, assim
+espero não tornar a leitura cansativa.&lt;/p&gt;
+&lt;p&gt;Como já tratei no primeiro post, que trata de NoSQL e MongoDB, é que os dados inseridos no database são no formato BSON.
+Isso pode ser feito de duas maneiras:
+Podemos definir os dados antes e, em seguida, salvá-los na coleção usando a função insert, ou podemos digitar o documento
+diretamenta na função insert.
+Usando uma variável para armazenar os dados que serão incluidos na coleção.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;var document = {"name": "Jones", "age": 35, "profession": "baker"}&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.people.insert(document);&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Quando usamos a função use "database" já temos o banco e agora inserimos o documento
+na coleção people.
+Quando usamos a função use "database", essa função define uma variável global db(database) para o
+nome do banco que queremos criar, vamos supor que o nosso database é o customer.
+Essa coleção somente é criada quando inserimos o primeiro documento. Assim como o banco também somente será criado
+quando incluirmos a primeira coleção.&lt;/p&gt;
+&lt;p&gt;Uma outra forma de inserirmos dados na nossa coleção é passando os valores diretamente na função insert&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.people.insert({"name": "Fred", "age": 30, "profession": "doctor" })&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.people.insert({"name": "George", "age": 40, "profession": "lawyer", "phone_numbers": [{"fax": "61 2222-1111"},{"cell phone" : "61 8888-7777"}]})&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Como podemos ver é muito simples e flexivel incluir dados em uma coleção do MongoDB&lt;/p&gt;
+&lt;h3&gt;Regras ao inserir dados na coleção:&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;O caractere $ não deve ser o primeiro do nome da chave. Por exemplo: $tags.&lt;/li&gt;
+&lt;li&gt;O caractere ponto [.] não deve aparecer em nenhum local no nome da chave. Por exemplo: ta.gs.&lt;/li&gt;
+&lt;li&gt;O nome _id é reservado para uso como ID de uma chave primária; embora não seja recomendável, ele poderá armazenar qualquer
+valor único, por exemplo, uma string ou um número inteiro. (HOWS, David;  MEMBREY, Peter; PLUGGE, MongoDB Basics, pg. 96)&lt;/li&gt;
+&lt;/ul&gt;</summary><category term="insert"></category><category term="nosql"></category><category term="mongodb"></category></entry><entry><title>Introdução ao NoSQL e MongoDB</title><link href="http://antoniomalves.github.io/intro-nosql-mongo.html" rel="alternate"></link><updated>2016-02-13T21:23:00-02:00</updated><author><name>Antonio Alves Lima</name></author><id>tag:antoniomalves.github.io,2016-02-13:intro-nosql-mongo.html</id><summary type="html">&lt;h3&gt;NoSQL&lt;/h3&gt;
 &lt;p&gt;Devido ao grande crescimento de aplicações web e a cada vez ser mais comum a grande quantidade de informações,
 criou-se um problema: Como lidar com isso de maneira eficaz?&lt;/p&gt;
 &lt;p&gt;O NoSQL surgiu da necessidade de uma melhor performance e escalabilidade, pois os bancos relacionais são muito restritos a isso.

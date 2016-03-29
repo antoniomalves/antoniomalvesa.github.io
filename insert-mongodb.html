@@ -100,7 +100,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <a class="subscribe-button icon-feed" href='http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp%3A%2F%2Ffeeds.feedburner.com%2FElBlogDeAbr4xas'  target='blank'>Subscribe</a>
 </nav>
 <span class="nav-cover"></span>    <div class="site-wrapper">
-        <header class="main-header post-head" style="background-image: url(http://antoniomalves.github.io/theme/images/banner-bg.jpg)" itemscope itemtype="http://schema.org/WPHeader">
+        <header class="main-header post-head" style="background-image: url(http://antoniomalves.github.io/theme/images/bear.jpg)" itemscope itemtype="http://schema.org/WPHeader">
             <nav class="main-nav overlay clearfix">
                 <a class="menu-button" href="#">
                     <span class="burger">&#9776;</span>
@@ -120,46 +120,58 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <main id="content" class="content" role="main">
     <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
         <header class="post-header">
-            <h1 class="post-title" itemprop="headline">Arquivos para Freedev...</h1>         
+            <h1 class="post-title" itemprop="headline">CRUD - Trabalhando com dados</h1>
+            <section class="post-meta">
+                <span class="entry-author" itemscope="" itemtype="http://schema.org/Person" itemprop="author">
+                    <span itemprop="name">Antonio Alves Lima</span></span>
+                <time class="post-date" itemprop="datePublished" datetime="2016YYY-37M-%DD">segunda, março 28, 2016</time>
+<nav role="navigation">
+    <a class="newer-posts blink_me" href="http://antoniomalves.github.io">&larr; Back</a>
+</nav><br/>            </section>
         </header>
         <section class="post-content">
-            <div itemprop="text">
-                            <h2>2016</h2>
-
-                            <dl>
-                                <dt>
-                                    <time itemprop="datePublished" datetime="2016-03-28T22:37:00-03:00">
-                                             Seg 28 março 2016
-                                    </time>
-                                </dt>
-                                <dd>
-                                    <a itemprop="url" href="http://antoniomalves.github.io/insert-mongodb.html">
-                                        CRUD - Trabalhando com dados
-                                    </a>
-                                </dd>
-
-                            </dl>
-
-                            <dl>
-                                <dt>
-                                    <time itemprop="datePublished" datetime="2016-02-13T21:23:00-02:00">
-                                             Sáb 13 fevereiro 2016
-                                    </time>
-                                </dt>
-                                <dd>
-                                    <a itemprop="url" href="http://antoniomalves.github.io/intro-nosql-mongo.html">
-                                        Introdução ao NoSQL e MongoDB
-                                    </a>
-                                </dd>
-
-                            </dl>
-            
-            </div>
-        <hr>
-    </section>
+            <h3>Insert - Como inserimos documentos em uma coleção.</h3>
+<p>Nos próximos posts irei mostrar as quatro operações básicas do MongoDB(CRUD) - Insert, update, remove e find/findOne.
+Como tenho muita coisa para mostrar nessas quatro operações resolvi fazer um post para cada uma delas, assim
+espero não tornar a leitura cansativa.</p>
+<p>Como já tratei no primeiro post, que trata de NoSQL e MongoDB, é que os dados inseridos no database são no formato BSON.
+Isso pode ser feito de duas maneiras:
+Podemos definir os dados antes e, em seguida, salvá-los na coleção usando a função insert, ou podemos digitar o documento
+diretamenta na função insert.
+Usando uma variável para armazenar os dados que serão incluidos na coleção.</p>
+<p><code>var document = {"name": "Jones", "age": 35, "profession": "baker"}</code></p>
+<p><code>db.people.insert(document);</code></p>
+<p>Quando usamos a função use "database" já temos o banco e agora inserimos o documento
+na coleção people.
+Quando usamos a função use "database", essa função define uma variável global db(database) para o
+nome do banco que queremos criar, vamos supor que o nosso database é o customer.
+Essa coleção somente é criada quando inserimos o primeiro documento. Assim como o banco também somente será criado
+quando incluirmos a primeira coleção.</p>
+<p>Uma outra forma de inserirmos dados na nossa coleção é passando os valores diretamente na função insert</p>
+<p><code>db.people.insert({"name": "Fred", "age": 30, "profession": "doctor" })</code></p>
+<p><code>db.people.insert({"name": "George", "age": 40, "profession": "lawyer", "phone_numbers": [{"fax": "61 2222-1111"},{"cell phone" : "61 8888-7777"}]})</code></p>
+<p>Como podemos ver é muito simples e flexivel incluir dados em uma coleção do MongoDB</p>
+<h3>Regras ao inserir dados na coleção:</h3>
+<ul>
+<li>O caractere $ não deve ser o primeiro do nome da chave. Por exemplo: $tags.</li>
+<li>O caractere ponto [.] não deve aparecer em nenhum local no nome da chave. Por exemplo: ta.gs.</li>
+<li>O nome _id é reservado para uso como ID de uma chave primária; embora não seja recomendável, ele poderá armazenar qualquer
+valor único, por exemplo, uma string ou um número inteiro. (HOWS, David;  MEMBREY, Peter; PLUGGE, MongoDB Basics, pg. 96)</li>
+</ul>
+            <p>
+                <a href="http://mbsy.co/bHCMB" target="_blank" style="border:none;">
+                    <img src="https://ambassador-api.s3.amazonaws.com/uploads/marketing/970/2014_09_22_13_34_17.gif" alt="Code School" border="0" />
+                </a>
+            </p>
+            <br/>
+<small>Si deseas realizar una donacion via <strong>PayPal</strong> puedes hacerlo dandole un clic al cerdito...<form class="text-center" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank"><input type="hidden" name="cmd" value="_s-xclick"><input type="hidden" name="hosted_button_id" value="RKG8G3ABP4XSW"><input type="image" src="http://antoniomalves.github.io/theme/images/1412723932_money_box.svg" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"></form>Si deseas realizar una donacion via <strong>BTC</strong> puedes hacerlo usando<br/>esto: 1KQbQ1oWNaTeLQ671NhXS1jVd8w5yQwCmi <br/>Gracias!!</small><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7127443823639155" data-ad-slot="9038513565" data-ad-format="auto"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script>            <br/>
+<nav class="pagination" role="navigation">
+    <ul>
+    </ul>
+</nav>            <br/>
+        </section>
         <footer class="post-footer">
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7127443823639155" data-ad-slot="9038513565" data-ad-format="auto"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script>            
-        </footer>        
+        </footer>
     </article>
 </main>
         <footer class="site-footer clearfix" role="contentinfo" itemscope itemtype="http://schema.org/WPFooter">
