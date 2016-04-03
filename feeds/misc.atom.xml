@@ -1,5 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Freedev</title><link href="http://antoniomalves.github.io/" rel="alternate"></link><link href="http://antoniomalves.github.io/feeds/misc.atom.xml" rel="self"></link><id>http://antoniomalves.github.io/</id><updated>2016-03-28T22:37:00-03:00</updated><entry><title>CRUD - Trabalhando com dados</title><link href="http://antoniomalves.github.io/insert-mongodb.html" rel="alternate"></link><updated>2016-03-28T22:37:00-03:00</updated><author><name>Antonio Alves Lima</name></author><id>tag:antoniomalves.github.io,2016-03-28:insert-mongodb.html</id><summary type="html">&lt;h3&gt;Insert - Como inserimos documentos em uma coleção.&lt;/h3&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Freedev</title><link href="http://antoniomalves.github.io/" rel="alternate"></link><link href="http://antoniomalves.github.io/feeds/misc.atom.xml" rel="self"></link><id>http://antoniomalves.github.io/</id><updated>2016-03-30T06:36:00-03:00</updated><entry><title>Selecionando documentos no MongoDB</title><link href="http://antoniomalves.github.io/find-findone-mongodb.html" rel="alternate"></link><updated>2016-03-30T06:36:00-03:00</updated><author><name>Antonio Alves Lima</name></author><id>tag:antoniomalves.github.io,2016-03-30:find-findone-mongodb.html</id><summary type="html">&lt;h3&gt;find e findOne.&lt;/h3&gt;
+&lt;p&gt;As suas queries no banco podem ser feitas com uma grande variedade de operadores, expressões e uma variadade de opções extraordinárias
+o que torna o MongoDB tão poderoso e fácil de se trabalhar.
+Nesse post vou mostrar alguns desses recursos dessa consulta tão poderosa.&lt;/p&gt;
+&lt;p&gt;Nesse momento já temos nosso banco criado e uma ou mais coleções nesse banco. A intenção aqui agora é somente
+mostar como você pode utilizar dos vários recursos da consulta do MongoDB para recuperar esses documentos.&lt;/p&gt;
+&lt;h3&gt;A função find&lt;/h3&gt;
+&lt;p&gt;A função find é uma maneira de você obter dados de vários documentos contidos na sua coleção. Após sua coleção criada será uma das funções que você usará com mais frequência.&lt;/p&gt;
+&lt;p&gt;Vamos supor que já temos um banco customer e uma coleção chamada people.
+Com o comando find simples, sem nenhum parâmetro, recuperamos todos os documentos da coleção(limitado por 20 no shell do mongo). Seria como se fizéssemos um &lt;code&gt;select * from&lt;/code&gt; na tabela.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.people.find({});&lt;/code&gt;&lt;/p&gt;
+&lt;h4&gt;Usando critérios para a função find&lt;/h4&gt;
+&lt;p&gt;Como a find nos devolve todos os documentos, sem nenhum critério, talvez não seja isso que vamos querer
+ao realizar uma pesquisa, nossa clausula where do MongoDB.
+Passando um argumento para o find.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.people.find({'name':'Bill'});&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Essa pesquisa retornará todos os documentos da coleção com o name igual a Bill.&lt;/p&gt;
+&lt;h5&gt;Mostrando somente os dados que nos interessa.&lt;/h5&gt;
+&lt;p&gt;Um outro argumento passado na função find é para nos apresentar somente os dados do documento que nos interessa.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.people.find({'name': 'Bill'},{name:true, age: true, profession: true})&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;{
+  "_id": ObjectId("56f562cd49bcc4a0389a8dc6"),
+  "name": "Bill",
+  "age": 35,
+  "profession": "Doctor"
+}&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Os valores passados no segundo argumento representam os campos que queremos apresentar na pesquisa, mas então porque veio o campo _id?
+O campo _id no segundo argumeno já vem setado como true por default, caso não queiramos mostar esse campo temos que alterar o valor desse explicitamente.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.people.find({'name': 'Bill'},{name:true, age: true, profession: true, _id: false})&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;{
+  "name": "Bill",
+  "age": 35,
+  "profession": "Doctor"
+}&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Ainda nesse segundo parâmetro passado se setarmos qualquer outra chave como false todos os dados do documento serão apresentandos,
+menos a chave que setamos como false.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.people.find({'name': 'Bill'},{name:false})&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;{
+  "_id": ObjectId("56f562cd49bcc4a0389a8dc6"),
+  "age": 35,
+  "profession": "Doctor"
+}&lt;/code&gt;&lt;/p&gt;
+&lt;h5&gt;Maior, Igual ou maior, Menor, Igual ou menor - $gt, $gte, $lt, $lte&lt;/h5&gt;
+&lt;p&gt;Com esses operadores relacionais podemos filtrar dados de chaves com valores numéricos e alfanuméricos.&lt;/p&gt;
+&lt;p&gt;Exemplos:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.scores.find({score: {$gt:95}});&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Essa pesquisa busca todos os documentos da coleção scores que tenha o campo score com valor maior que 95.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.scores.find({score: {$gt:95}, type: "essay"});&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Documentos com score maior que 95 e type com o valor "essay".&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.people.find({name: {$lt: "D", $gt: "B"});&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Recupera todos os documentos com o valor da chave "name" começando com uma letra que seja menor que "D" e maior que "B".&lt;/p&gt;
+&lt;h5&gt;Type e Exists&lt;/h5&gt;
+&lt;p&gt;Quando precisamos verificiar se a nossa chave existe no documento ou se essa chave pertence a um determinado tipo, conforme especificação BSON.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.people.find({profession: {$exists:true}});&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Retorna os documentos onde o campo profession exista.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.people.find({name:{$type:2}});&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Retorna os documentos onde o valor do campo name seja uma String de caracteres.
+caso esse valor fosse do tipo Double só precisariamos trocar o 2 pelo 1. Isso é uma implementação da especifacação BSON para tipos que tem como aliases seus correspondentes. 1(Double), 2(String), 3(Object).
+https://docs.mongodb.org/manual/reference/operator/query/type/&lt;/p&gt;
+&lt;h5&gt;Regex&lt;/h5&gt;
+&lt;p&gt;Utilizando regex na pesquisa de documentos na coleção.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.people.find({name: {$regex: "a"}});&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;retorna todos os documentos que contenham a letra "a" no valor da chave "name".&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.people.find({name: {$regex: "e$"}});&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;retorna todos os documentos que terminam com a letra "e" no valor da chave "name".&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.people.find({name: {$regex: "^A"}});&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;retorna todos os documentos que começam com a letra "A" no valor da chave "name".&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.users.find({name: {$regex: "q"}, email:{$exists:true}});&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;retorna todos os documentos onde o campo name tenha a letra "q" e a chave email exista no documento.&lt;/p&gt;
+&lt;h5&gt;Operador lógico&lt;/h5&gt;
+&lt;p&gt;Usando o operador $or
+Para realizar pesquisa onde queremos que o documento retornado corresponda a qualquer um dos parâmetros que informamos na pesquisa usamos o operador $or.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.people.find({$or:[{name: {$regex:"e$"}}, {age:{$exists:true}}]});&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Essa pesquisa irá retornar todos os documentos onde a chave name tenha a letra "e" no seu valor e exista a chave "age" no documento.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.scores.find({$or:[{score:{$lt:50}},{score:{$gt:90}}]});&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Retorna os documentos com o score menor que 50 e também os documentos com o score maior que 90.&lt;/p&gt;
+&lt;p&gt;Usando o operador $and
+Para realizar pesquisa onde queremos que o documento retornado corresponda a todos os parâmetros que informamos na pesquisa usamos o operador $and.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.people.find({$and:[{name:{$gt:"C"}}, {name: {$regex:"a"}}]});&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Retorna todos os documentos onde o valor da chave name tenha a letra "C" e também tenha a letra "a".&lt;/p&gt;
+&lt;p&gt;obs. para essa pesquisa também poderíamos usar a seguinte querie:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.people.find({name: {$gt: "C", $regex: "a"}});&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Atenção!!!&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.scores.find( { score : { $gt : 50 }, score : { $lt : 60 } } );&lt;/code&gt;
+Essa consulta irá recuperar todos os documentos com o score menor que 60, já que o segundo parâmetro passado na consulta substitui o primeiro.
+para realizarmos essa consulta de forma correta poderíamos usar o $and ou então colocar o segundo valor($lt:60) junto com o $gt: 50 no primeiro parâmetro.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.scores.find( { score : { $gt : 50, $lt : 60 } } );&lt;/code&gt;&lt;/p&gt;
+&lt;h5&gt;Trabalhando com arrays&lt;/h5&gt;
+&lt;p&gt;Temos os seguintes documentos na coleção accounts:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;{
+  "_id": ObjectId("56f5b2918c8c314a17661ea2"),
+  "name": "Howard",
+  "favorites": [
+    "pretzels",
+    "beer"
+  ]
+}&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;{
+  "_id": ObjectId("56f5b2bb8c8c314a17661ea3"),
+  "name": "George",
+  "favorites": [
+    "ice cream",
+    "pretzels"
+  ]
+}&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;para realizarmos uma pesquisa que nos retorne o documento que contenha o valor beer dentro do array favorites.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.accounts.find({favorites: "beer"});&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Será retornado o documento que contém o valor "beer" para a chave "favorites".&lt;/p&gt;
+&lt;p&gt;obs. Caso exista um documento que contenha o valor "beer" para "favorites, mesmo que não esteja dentro de um array, também será retornado.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;{
+  "_id": ObjectId("56f5b2bb8c8c314a17661ea3"),
+  "name": "Bill",
+  "favorites": "beer"
+}&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Utilizando os operadores $in e $all
+Usamos esses operadores para realizar consulta em arrays&lt;/p&gt;
+&lt;p&gt;o operador $all só nos retorna resultado se todos os valores passados no argumento da pesquisa existirem no array.
+por exemplo:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.accounts.find({favorites: {$all: ["pretzels", "beer"]}});&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;só vai retornar os documentos que contenham todos os itens passados na pesquisa(pretzels e beer).&lt;/p&gt;
+&lt;p&gt;O operador $in retorna o resultado dos se ao menos um dos valores passados no argumento da pesquisa existir no array.
+por exemplo:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.accounts.find({favorites:{$in : ["beer", "pretzels"]}});&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;vai retornar os documentos que contenham pelo menos um dos itens passado no argumento.&lt;/p&gt;
+&lt;p&gt;Usando o operador .(ponto) para realizar pesquisa em array.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.users.find({"email.work" : "antonio.teste@empresa.com"});&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Consulta irá retornar o documento da coleção users onde o email work for igual ao valor passado na pesquisa.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.catalog.find({"price":{$gt:10000}, "reviews.rating":{$gte:5}});&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Essa consulta retorna todos os produtos com um preço maior que 10.000,00 e com uma avaliação melhor que 5.&lt;/p&gt;
+&lt;h5&gt;Sort, limit e skip&lt;/h5&gt;
+&lt;p&gt;&lt;code&gt;db.people.find().sort({name:1});&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Usando o sortordenamos os nomes em ordem crescente. Temos duas possibilidades para sort, 1 para ASC e -1 para DESC.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;dp.people.find().limit(4);&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Usamos o limit para limitar o total de resultados que a consulta irá retornar.&lt;/p&gt;
+&lt;p&gt;Também podemos juntar o sort e limit&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.people.find().sort({name:-1}).limit(3);&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Primeiro ordenamos a consulta na ordem decrescente por nomes e depois limitamos o resultado para 3.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.people.find().sort({name:-1}).limit(3).skip(2);&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Com o skip pulamos os dois primeiros resultados do nosso cursor.
+Essa consulta funciona da seguinte forma:
+Primeiro os nomes são ordenados na ordem decrescente, logo após é feito o escape dos dois primeiros resultados e então limitado a mostrar somente os três resultados.&lt;/p&gt;
+&lt;h4&gt;findOne&lt;/h4&gt;
+&lt;p&gt;Quando tudo o que queremos é somente um documento da nossa coleção o mongo nos oferece a função findOne que, recupera apenas um documento como resultado de pesquisa.
+Todos os operadores, filtros e tudo mais que vimos na função find podem também serem utilizados na função findOne.
+FindOne encontra a primeira ocorrência do documento e apresenta. Se for passado algum argumento será apresentado o primeiro documento corresponder a pesquisa feita&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;db.people.findOne({name: "Smith"})
+{
+  "_id": ObjectId("56f5619449bcc4a0389a8dc5"),
+  "name": "Smith",
+  "age": 30,
+  "profession": "hacker"
+}&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Com isso terminamos a parte de pesquisa em documentos no MongoDB. É claro que isso não é tudo que é oferecido
+como recurso para suas pesquisas, mas tentei ser o mais breve com o post mais abrangendo grande parte dos recursos que existe para nossa pesquisa.
+Logo irei lançar um post para cada um desses recursos e fazer a apresentação desses mais resumidamente, mas com isso que foi apresentado até aqui acredito que já é um bom caminho para tornar sua pesquisa mais poderosa.
+Nos vemos no próximo post!&lt;/p&gt;</summary><category term="find"></category><category term="findOne"></category><category term="nosql"></category><category term="mongodb"></category></entry><entry><title>CRUD - Trabalhando com dados</title><link href="http://antoniomalves.github.io/insert-mongodb.html" rel="alternate"></link><updated>2016-03-28T22:37:00-03:00</updated><author><name>Antonio Alves Lima</name></author><id>tag:antoniomalves.github.io,2016-03-28:insert-mongodb.html</id><summary type="html">&lt;h3&gt;Insert - Como inserimos documentos em uma coleção.&lt;/h3&gt;
 &lt;p&gt;Nos próximos posts irei mostrar as quatro operações básicas do MongoDB(CRUD) - Insert, update, remove e find/findOne.
 Como tenho muita coisa para mostrar nessas quatro operações resolvi fazer um post para cada uma delas, assim
 espero não tornar a leitura cansativa.&lt;/p&gt;
